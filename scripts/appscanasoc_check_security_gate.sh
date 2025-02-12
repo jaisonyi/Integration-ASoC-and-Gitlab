@@ -45,8 +45,12 @@ elif [[ "$mediumIssues" -gt "$maxMediumIssuesAllowed" ]]; then
     echo "The company policy permits less than $maxMediumIssuesAllowed medium issues"
     echo "Security Gate build failed"
     exit 1
+elif [[ "$lowIssues" -gt "$maxLowIssuesAllowed" ]]; then
+    echo "The company policy permits less than $maxLowIssuesAllowed medium issues"
+    echo "Security Gate build failed"
+    exit 1
 fi
-echo "The company policy permits less than $maxCriticalIssuesAllowed critical issues, $maxHighIssuesAllowed high issues, and $maxMediumIssuesAllowed medium issues"
+echo "The company policy permits less than $maxCriticalIssuesAllowed critical issues, $maxHighIssuesAllowed high issues, $maxMediumIssuesAllowed high issues, and $maxLowIssuesAllowed medium issues"
 echo "Security Gate passed"
 
 curl -k -s -X 'GET' "https://$serviceUrl/api/v4/Account/Logout" -H 'accept: */*' -H "Authorization: Bearer $asocToken"
