@@ -51,7 +51,7 @@ variables:
   maxIssuesAllowed: 100
 
 include:
-  - remote: 'https://raw.githubusercontent.com/jrocia/Integration-ASoC-and-Gitlab/main/yaml/appscanasoc_scan_sast.yaml'
+  - remote: 'https://raw.githubusercontent.com/jaisonyi/Integration-ASoC-and-Gitlab/main/yaml/appscanasoc_scan_sast.yaml'
 
 stages:
 - scan-sast
@@ -87,7 +87,7 @@ variables:
   maxIssuesAllowed: 100
 
 include:
-  - remote: 'https://raw.githubusercontent.com/jrocia/Integration-ASoC-and-Gitlab/main/yaml/appscanasoc_scan_dast.yaml'
+  - remote: 'https://raw.githubusercontent.com/jaisonyi/Integration-ASoC-and-Gitlab/main/yaml/appscanasoc_scan_dast.yaml'
 
 stages:
 - scan-dast
