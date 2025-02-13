@@ -1,16 +1,15 @@
 #asocApiKeyId='xxxxxxxxxxxxx'
 #asocApiKeySecret='xxxxxxxxxxxxx'
 #serviceUrl='xxxxxxxxxxxxx'
-#maxCriticalIssuesAllowed=1
-#maxHighIssuesAllowed=20
-#maxMediumIssuesAllowed=50
+#sevSecGw='xxxxxxxxxxxxx'
+#maxIssuesAllowed=xxxxxxxxxxxxx
 
 scanId=$(cat scanId.txt)
 
 asocToken=$(curl -k -s -X POST --header 'Content-Type:application/json' --header 'Accept:application/json' -d '{"KeyId":"'"$asocApiKeyId"'","KeySecret":"'"$asocApiKeySecret"'"}' "https://$serviceUrl/api/v4/Account/ApiKeyLogin" | grep -oP '(?<="Token":\ ")[^"]*')
 
 if [ -z "$asocToken" ]; then
-    echo "The token variable is empty. Check the authentication process.";
+	echo "The token variable is empty. Check the authentication process.";
     exit 1
 fi
 
@@ -31,26 +30,30 @@ highIssues=$(cat scanResult.txt | jq -r '.LatestExecution | {NHighIssues} | join
 mediumIssues=$(cat scanResult.txt | jq -r '.LatestExecution | {NMediumIssues} | join(" ")')
 lowIssues=$(cat scanResult.txt | jq -r '.LatestExecution | {NLowIssues} | join(" ")')
 totalIssues=$(cat scanResult.txt | jq -r '.LatestExecution | {NIssuesFound} | join(" ")')
-echo "There are $criticalIssues critical issues, $highIssues high issues, $mediumIssues medium issues, and $lowIssues low issues"
+echo "There is $criticalIssues critical issues, $highIssues high issues, $mediumIssues medium issues and $lowIssues low issues"
 
-if [[ "$criticalIssues" -gt "$maxCriticalIssuesAllowed" ]]; then
-    echo "The company policy permits less than $maxCriticalIssuesAllowed critical issues"
+if [[ "$criticalIssues" -gt "$maxIssuesAllowed1" ]] && [[ "$sevSecGw1" == "criticalIssues" ]]; then
+    echo "The company policy permit less than $maxIssuesAllowed1 $sevSecGw1 severity"
     echo "Security Gate build failed"
     exit 1
-elif [[ "$highIssues" -gt "$maxHighIssuesAllowed" ]]; then
-    echo "The company policy permits less than $maxHighIssuesAllowed high issues"
+elif [[ "$highIssues" -gt "$maxIssuesAllowed2" ]] && [[ "$sevSecGw2" == "highIssues" ]]; then
+    echo "The company policy permit less than $maxIssuesAllowed2 $sevSecGw2 severity"
     echo "Security Gate build failed"
     exit 1
-elif [[ "$mediumIssues" -gt "$maxMediumIssuesAllowed" ]]; then
-    echo "The company policy permits less than $maxMediumIssuesAllowed medium issues"
+elif [[ "$mediumIssues" -gt "$maxIssuesAllowed3" ]] && [[ "$sevSecGw3" == "mediumIssues" ]]; then
+    echo "The company policy permit less than $maxIssuesAllowed3 $sevSecGw3 severity"
     echo "Security Gate build failed"
     exit 1
-elif [[ "$lowIssues" -gt "$maxLowIssuesAllowed" ]]; then
-    echo "The company policy permits less than $maxLowIssuesAllowed medium issues"
+elif [[ "$lowIssues" -gt "$maxIssuesAllowed4" ]] && [[ "$sevSecGw4" == "lowIssues" ]]; then
+    echo "The company policy permit less than $maxIssuesAllowed4 $sevSecGw4 severity"
+    echo "Security Gate build failed"
+    exit 1
+elif [[ "$totalIssues" -gt "$maxIssuesAllowed5" ]] && [[ "$sevSecGw5" == "totalIssues" ]]; then
+    echo "The company policy permit less than $maxIssuesAllowed5 $sevSecGw5 severity"
     echo "Security Gate build failed"
     exit 1
 fi
-echo "The company policy permits less than $maxCriticalIssuesAllowed critical issues, $maxHighIssuesAllowed high issues, $maxMediumIssuesAllowed high issues, and $maxLowIssuesAllowed medium issues"
+echo "The company policy permit less than $maxIssuesAllowed $sevSecGw severity"
 echo "Security Gate passed"
 
 curl -k -s -X 'GET' "https://$serviceUrl/api/v4/Account/Logout" -H 'accept: */*' -H "Authorization: Bearer $asocToken"
