@@ -41,7 +41,7 @@ scan-job:
     - chmod +x appscanasoc_get_xml_report.sh
     - ./appscanasoc_get_xml_report.sh
 
-    - curl -k -s -O https://raw.githubusercontent.com/jaisonyi/Integration-ASoC-and-Gitlab/scripts/appscanasoc_check_security_gate.sh
+    - curl -k -s -O https://raw.githubusercontent.com/jaisonyi/Integration-ASoC-and-Gitlab/main/scripts/appscanasoc_check_security_gate.sh
     - chmod +x appscanasoc_check_security_gate.sh
     - ./appscanasoc_check_security_gate.sh
 
